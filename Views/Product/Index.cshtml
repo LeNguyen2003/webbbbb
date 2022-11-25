@@ -1,0 +1,62 @@
+﻿@*model IEnumerable<WebBanHang.Models.Products>*@
+    @using WebBanHang.Models;
+    @using PagedList.Mvc;
+    @model PagedList.PagedList<Products>
+
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>DANH MỤC SẢN PHẨM</h2>
+<style>
+
+</style>
+<p>
+    @Html.ActionLink("Thêm sản phẩm mới", "Create")
+</p>
+<table class="table table-bordered" style="border-width:thick">
+    <tr>
+        <th> Tên sản phẩm </th>
+        <th> Mô tả </th>
+        <th> Đơn giá </th>
+        <th> Hình </th>
+        <th> Loại sản phẩm </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NamePro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DecriptionPro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <img src="@item.ImagePro" alt="Product image" width="60" />
+                <br />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category1.NameCate)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.ProductID }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.ProductID })
+            </td>
+        </tr>
+    }
+    Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) / @Model.PageCount
+    <div class="MenuPage">
+        @Html.PagedListPager(Model, page=>Url.Action("Index", new { page = page }))
+    </div>
+
+</table>
